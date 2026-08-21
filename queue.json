@@ -1,11 +1,11 @@
 {
   "seed": [
-    "Estee Lauder",
     "Andrew Carnegie",
     "Sara Blakely"
   ],
   "covered": [
     "Sam Zemurray",
-    "Jensen Huang"
+    "Jensen Huang",
+    "Estee Lauder"
   ]
 }
