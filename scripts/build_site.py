@@ -350,12 +350,16 @@ def main():
     if not story_files:
         raise SystemExit("No stories found in stories/. Run research.py first.")
 
-    pieces = [json.loads(f.read_text()) for f in story_files]
-    pieces.sort(key=lambda p: p["date"])
+    pieces = []
+    for f in story_files:
+        piece = json.loads(f.read_text())
+        piece["_slug"] = f.stem
+        pieces.append(piece)
+    pieces.sort(key=lambda p: p["_slug"])
 
     for piece in pieces:
         page = render_story_page(piece)
-        (SITE_DIR / "s" / f"{piece['date']}.html").write_text(page)
+        (SITE_DIR / "s" / f"{piece['_slug']}.html").write_text(page)
 
     latest = render_story_page(pieces[-1]).replace('href="archive.html"', 'href="archive.html"')
     (SITE_DIR / "index.html").write_text(latest)
@@ -363,7 +367,7 @@ def main():
     entries = []
     for piece in reversed(pieces):
         entries.append(
-            f'<a class="entry" href="s/{piece["date"]}.html">'
+            f'<a class="entry" href="s/{piece["_slug"]}.html">'
             f'<span class="date">{html.escape(piece["date"])}</span>'
             f'<span class="name">{html.escape(piece["name"])}</span>'
             f'<span class="tag">{html.escape(piece["tagline"])}</span>'

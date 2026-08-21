@@ -192,6 +192,10 @@ def main():
     piece = pass_3_write(person, timeline, mechanics)
 
     out_file = STORIES_DIR / f"{date.today().isoformat()}.json"
+    n = 2
+    while out_file.exists():
+        out_file = STORIES_DIR / f"{date.today().isoformat()}-{n}.json"
+        n += 1
     out_file.write_text(json.dumps(piece, indent=2))
     print(f"Wrote {out_file}")
 
